@@ -17,6 +17,7 @@ std::string Claster::CClasterisatorGraph::clasterisation( std::string data ) {
             return CLASTER_UNCORRECT_DATA;
         }
     }
+    countClasters_--;
 
 
     std::cout << "Start parse data\n";

@@ -28,6 +28,7 @@ std::string Claster::CClasterisatorMask::clasterisation( std::string data ) {
         result += ( *iter )->getClasters();
         result += ';';
     }
+    result.pop_back();
     std::cout << "Clasteristion is successful.\n";
     return result;
 }
