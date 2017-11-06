@@ -66,9 +66,8 @@ std::string CServer::getRequest() {
         std::cout << "recv failed: " << result << "\n";
         closesocket( clientSocket_ );
     } else if ( result == 0 ) {
-        std::cout << "connection closed...\n";
+        throw SERVER_ERROR_DISCONECT;
     } else if ( result > 0 ) {
-        buf [ result ] = '\0';
         unsigned int id = 0;
         while ( buf [ id ] != '/' )
             id++;
@@ -76,7 +75,6 @@ std::string CServer::getRequest() {
         for ( ; buf [ id ] != ' '; id++ ) {
             request += buf [ id ];
         }
-        request += '\0';
     }
     return request;
 }

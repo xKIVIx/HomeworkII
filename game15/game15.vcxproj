@@ -146,8 +146,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CHandler.cpp" />
+    <ClCompile Include="Claster\CClasterHandler.cpp" />
     <ClCompile Include="Claster\CClasterisator.cpp" />
     <ClCompile Include="Claster\CClasterisatorGraph.cpp" />
+    <ClCompile Include="Claster\CClasterisatorMask.cpp" />
     <ClCompile Include="Claster\CObject.cpp" />
     <ClCompile Include="Claster\ParseState\CParseSate.cpp" />
     <ClCompile Include="Claster\ParseState\CParseStateNewDataPart.cpp" />
@@ -165,8 +167,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CHandler.h" />
+    <ClInclude Include="Claster\CClasterHandler.h" />
     <ClInclude Include="Claster\CClasterisator.h" />
     <ClInclude Include="Claster\CClasterisatorGraph.h" />
+    <ClInclude Include="Claster\CClasterisatorMask.h" />
     <ClInclude Include="Claster\CObject.h" />
     <ClInclude Include="Claster\ParseState\CParseSate.h" />
     <ClInclude Include="Claster\ParseState\CParseStateNewDataPart.h" />

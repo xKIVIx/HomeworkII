@@ -20,8 +20,10 @@ namespace Claster {
                 throw PARSE_ERROR_UNCORRET_DATA;
             if ( data.back() == '+' )
                 return ( CParseState * ) new CParseStateNewDataPart();
-            if ( data.back == '[' )
+            if ( data.back() == '[' ) {
+                data.pop_back();
                 return ( CParseState * ) new CParseStateReadeDataName();
+            }
 
             throw PARSE_ERROR_UNCORRET_DATA;
         }

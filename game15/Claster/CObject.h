@@ -36,7 +36,7 @@ namespace Claster {
          */
         unsigned int getDefferentCount( const CObject & secondObject ) const;
 
-        inline std::vector <unsigned char> & getDataBuffer();
+        std::vector <unsigned char> & getDataBuffer();
 
         std::string & getName();
 
@@ -46,7 +46,7 @@ namespace Claster {
 
         void setStateNext( bool state );
 
-        unsigned int deleteMaxEdge( unsigned int maxSize = 0 );
+        unsigned int deleteMaxEdge( unsigned int maxSize);
 
         void viewInfo();
 

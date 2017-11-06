@@ -7,7 +7,7 @@
 
 #include "CObject.h"
 
-#define CLASTER_UNCORRECT_DATA "Uncorrect data"
+#define CLASTER_UNCORRECT_DATA std::string("Uncorrect data\n")
 
 namespace Claster {
 

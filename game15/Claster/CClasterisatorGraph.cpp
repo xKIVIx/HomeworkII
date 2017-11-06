@@ -26,17 +26,19 @@ std::string Claster::CClasterisatorGraph::clasterisation( std::string data ) {
         std::cout << er << std::endl;
         return er;
     }
-    std::cout << "Data:\n";
-    for ( auto iterator = objectsVector_.begin(); iterator != objectsVector_.end(); ++iterator )
-        iterator->viewInfo();
+
     std::cout << "Count clasters: " << countClasters_ << "\n";
+    if ( objectsVector_.size() < countClasters_ ) {
+        std::cout << "Count clasters more then data\n";
+        return "Count clasters more then data\n";
+    }
 
     computeMatrix();
 
     buildLineGraph();
 
     for ( unsigned int countSetClasters = 0; countSetClasters < countClasters_; countSetClasters++ ) {
-        graphHead_->deleteMaxEdge();
+        graphHead_->deleteMaxEdge( 0 );
     }
     std::cout << "Clasterisation is succesful\n";
     return graphHead_->getClasters();
@@ -54,15 +56,20 @@ void Claster::CClasterisatorGraph::buildLineGraph() {
     while ( countAdded < objectsVector_.size() ) {
         min_i = min_k;
         min_k = 0;
+        unsigned int minDestination = UINT32_MAX;
         for ( unsigned int k = 0; k < objectsVector_.size(); k++ ) {
             if ( !usedVert [ k ] ) {
-                if ( distinationMatrix_ [ min_i ] [ min_k ] > distinationMatrix_ [ min_i ] [ k ] )
+                if ( minDestination > distinationMatrix_ [ min_i ] [ k ] ) {
                     min_k = k;
+                    minDestination = distinationMatrix_ [ min_i ] [ k ];
+                }
             }
         }
         graphHead_->setNextObject( objectsVector_ [ min_k ] );
+        usedVert [ min_k ] = true;;
         countAdded++;
     }
+    delete [] usedVert;
     std::cout << "Graph :" << graphHead_->getClasters() << std::endl;
 }
 
@@ -79,13 +86,15 @@ void Claster::CClasterisatorGraph::computeMatrix() {
     clearMatrix();
     std::cout << "Compute distanation matrix\n";
     distinationMatrix_ = new unsigned int * [ objectsVector_.size() ];
+    unsigned int minDistination = UINT32_MAX;
     for ( unsigned int i = 0; i < objectsVector_.size(); i++ ) {
         distinationMatrix_ [ i ] = new unsigned int [ objectsVector_.size() ];
         for ( unsigned int k = 0; k < objectsVector_.size(); k++ ) {
             distinationMatrix_ [ i ] [ k ] = objectsVector_ [ k ].getDefferentCount( objectsVector_ [ i ] );
-            if ( ( distinationMatrix_ [ i ] [ k ] < distinationMatrix_ [ min_i ] [ min_k ] ) && ( k != i ) ) {
+            if ( ( distinationMatrix_ [ i ] [ k ] < minDistination ) && ( k != i ) ) {
                 min_i = i;
                 min_k = k;
+                minDistination = distinationMatrix_ [ i ] [ k ];
             }
         }
     }

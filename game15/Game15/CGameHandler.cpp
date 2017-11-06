@@ -5,7 +5,7 @@
 
 namespace Game15 {
     std::string CGameHandler::handle( std::string message ) const {
-        if ( message [ message.size() - 2 ] == 'g' ) {
+        if ( message.back() == 'g' ) {
             std::cout << "Start game 15\n";
             message.pop_back();
             unsigned char field [ COUNT_CELL ] { 0 };
@@ -32,14 +32,8 @@ namespace Game15 {
                 return answer;
             }
             return "Cann`t find answer\n";
-        } else {
-            if ( m_nexthandler_ != nullptr )
-                m_nexthandler_->handle( message );
-            else {
-                std::cout << "Haven`t \"" << message.back() << "\" handler\n";
-                return "Haven`t handler\n";
-            }
-        }
+        } else
+            return nextHandler( message );
     }
 }
 

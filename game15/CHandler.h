@@ -40,8 +40,7 @@ protected:
 
     CHandler * m_nexthandler_ = nullptr;
 
-
-
+    std::string nextHandler( std::string message ) const;
 
 };
 

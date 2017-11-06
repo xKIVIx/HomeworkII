@@ -3,6 +3,9 @@
 #include <WS2tcpip.h>
 #include <string>
 #pragma comment(lib, "Ws2_32.lib")
+
+#define SERVER_ERROR_DISCONECT std::string ("Disconnect..\n");
+
 class CServer {
 public:
     CServer();

@@ -80,6 +80,12 @@
     <ClCompile Include="Claster\ParseState\CParseStateReadeDataName.cpp">
       <Filter>Файлы исходного кода\Claster\ParseState</Filter>
     </ClCompile>
+    <ClCompile Include="Claster\CClasterHandler.cpp">
+      <Filter>Файлы исходного кода\Claster</Filter>
+    </ClCompile>
+    <ClCompile Include="Claster\CClasterisatorMask.cpp">
+      <Filter>Файлы исходного кода\Claster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game15\CDownTurn.h">
@@ -129,6 +135,12 @@
     </ClInclude>
     <ClInclude Include="Claster\ParseState\CParseStateReadeDataName.h">
       <Filter>Заголовочные файлы\Claster\ParseState</Filter>
+    </ClInclude>
+    <ClInclude Include="Claster\CClasterHandler.h">
+      <Filter>Заголовочные файлы\Claster</Filter>
+    </ClInclude>
+    <ClInclude Include="Claster\CClasterisatorMask.h">
+      <Filter>Заголовочные файлы\Claster</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

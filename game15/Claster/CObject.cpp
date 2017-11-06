@@ -34,7 +34,7 @@ unsigned int Claster::CObject::getDefferentCount( const CObject & secondObject )
     return result;
 }
 
-inline std::vector<unsigned char>& Claster::CObject::getDataBuffer() {
+std::vector<unsigned char>& Claster::CObject::getDataBuffer() {
     return data_;
 }
 
@@ -53,14 +53,15 @@ std::string Claster::CObject::getClasters() {
     std::string result;
 
     if ( nextObject_ != nullptr ) {
-        result = nextObject_->getClasters();
-
         if ( isNextLock_ )
-            result += ';';
+            result = ';';
         else
-            result += '+';
+            result = '+';
+        result += nextObject_->getClasters();
+
+        
     }
-    result += name_;
+    result = name_ + result;
     return result;
 }
 
@@ -90,7 +91,7 @@ unsigned int Claster::CObject::deleteMaxEdge( unsigned int maxSize = 0 ) {
 void Claster::CObject::viewInfo() {
     std::cout << name_ << ": ";
     for ( auto iter = data_.begin(); iter != data_.end(); ++iter )
-        std::cout << *iter << ' ';
+        std::cout << unsigned int (*iter) << ' ';
     std::cout << std::endl;
 }
 

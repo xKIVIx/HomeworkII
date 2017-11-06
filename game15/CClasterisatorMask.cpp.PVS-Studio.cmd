@@ -1,0 +1,1 @@
+@call "C:\Program Files (x86)\PVS-Studio\x64\PVS-Studio.exe" --cfg "C:\Users\KIVI\documents\visual studio 2015\Projects\game15\game15\CClasterisatorMask.cpp.PVS-Studio.cfg"
