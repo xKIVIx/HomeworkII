@@ -3,12 +3,9 @@
 #include <iostream>
 
 
-namespace Game15
-{
-    std::string CGameHandler::handle( std::string message ) const
-    {
-        if ( message[message.size() - 2] == 'g' )
-        {
+namespace Game15 {
+    std::string CGameHandler::handle( std::string message ) const {
+        if ( message [ message.size() - 2 ] == 'g' ) {
             std::cout << "Start game 15\n";
             message.pop_back();
             unsigned char field [ COUNT_CELL ] { 0 };
@@ -20,8 +17,7 @@ namespace Game15
 
             char *ptr = nullptr;
             ptr = strtok( str, separator );
-            while ( ptr )
-            {
+            while ( ptr ) {
                 field [ id ] = atoi( ptr );
                 if ( field [ id ] == UCHAR_MAX )
                     empyCellPos = id;
@@ -29,21 +25,17 @@ namespace Game15
                 ptr = strtok( 0, separator );
             }
             delete str;
-            if ( empyCellPos != UCHAR_MAX )
-            {
+            if ( empyCellPos != UCHAR_MAX ) {
                 Game15::CTreeElem test( field, empyCellPos );
                 std::string answer = test.sreachWay();
                 std::cout << "End find answer\n";
                 return answer;
             }
             return "Cann`t find answer\n";
-        }
-        else
-        {
+        } else {
             if ( m_nexthandler_ != nullptr )
                 m_nexthandler_->handle( message );
-            else
-            {
+            else {
                 std::cout << "Haven`t \"" << message.back() << "\" handler\n";
                 return "Haven`t handler\n";
             }

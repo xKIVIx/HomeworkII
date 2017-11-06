@@ -149,6 +149,11 @@
     <ClCompile Include="Claster\CClasterisator.cpp" />
     <ClCompile Include="Claster\CClasterisatorGraph.cpp" />
     <ClCompile Include="Claster\CObject.cpp" />
+    <ClCompile Include="Claster\ParseState\CParseSate.cpp" />
+    <ClCompile Include="Claster\ParseState\CParseStateNewDataPart.cpp" />
+    <ClCompile Include="Claster\ParseState\CParseStateReadeDataName.cpp" />
+    <ClCompile Include="Claster\ParseState\CParseStateReadPartData.cpp" />
+    <ClCompile Include="Claster\ParseState\CParseStateStartRead.cpp" />
     <ClCompile Include="game15\CDownTurn.cpp" />
     <ClCompile Include="Game15\CGameHandler.cpp" />
     <ClCompile Include="game15\CLeftTurn.cpp" />
@@ -163,6 +168,11 @@
     <ClInclude Include="Claster\CClasterisator.h" />
     <ClInclude Include="Claster\CClasterisatorGraph.h" />
     <ClInclude Include="Claster\CObject.h" />
+    <ClInclude Include="Claster\ParseState\CParseSate.h" />
+    <ClInclude Include="Claster\ParseState\CParseStateNewDataPart.h" />
+    <ClInclude Include="Claster\ParseState\CParseStateReadeDataName.h" />
+    <ClInclude Include="Claster\ParseState\CParseStateReadPartData.h" />
+    <ClInclude Include="Claster\ParseState\CParseStateStartRead.h" />
     <ClInclude Include="game15\CDownTurn.h" />
     <ClInclude Include="Game15\CGameHandler.h" />
     <ClInclude Include="game15\CLeftTurn.h" />

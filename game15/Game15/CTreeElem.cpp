@@ -6,8 +6,7 @@
 #include <iostream>
 
 
-namespace Game15
-{
+namespace Game15 {
     CTreeElem::CTreeElem( unsigned char field [ COUNT_CELL ], unsigned char positionEmpyCell )
 
     {
@@ -24,16 +23,13 @@ namespace Game15
         countIndentife();
         CTreeElem * head = this;
         unsigned int countIterations = 0;
-        while ( head->indentife_ != 0 )
-        {
+        while ( head->indentife_ != 0 ) {
             CTreeElem * tmp = head->sreachNextTurn();
-            if ( tmp == nullptr )
-            {
+            if ( tmp == nullptr ) {
                 head->isLock_ = true;
                 head->clearNextTurns();
                 head = head->lastTurn_;
-                if ( head == nullptr )
-                {
+                if ( head == nullptr ) {
                     std::cout << "Can`t find answer to : " << parseState();
                     return "Can`t find answer";
                 }
@@ -41,16 +37,14 @@ namespace Game15
             }
             head = tmp;
             countIterations++;
-            if ( countIterations > MAX_ITERATIONS )
-            {
+            if ( countIterations > MAX_ITERATIONS ) {
                 std::cout << "Can`t find answer to : " << parseState();
                 return "Can`t find answer";
             }
             std::cout << "Interation : " << countIterations << "  Current lvl : " << unsigned int( head->currentLvl_ ) << std::endl;
 
         }
-        while ( head != nullptr )
-        {
+        while ( head != nullptr ) {
             result = head->parseState() + result;
             head = head->lastTurn_;
         }
@@ -59,16 +53,13 @@ namespace Game15
     }
 
 
-    CTreeElem::~CTreeElem()
-    {
+    CTreeElem::~CTreeElem() {
         clearNextTurns();
     }
 
-    CTreeElem::CTreeElem( CTreeElem * lastElem )
-    {
+    CTreeElem::CTreeElem( CTreeElem * lastElem ) {
         currentLvl_ = lastElem->currentLvl_ + 1;
-        if ( IS_GOD_NUMBER( currentLvl_ ) )
-        {
+        if ( IS_GOD_NUMBER( currentLvl_ ) ) {
             isLock_ = true;
             return;
         }
@@ -78,33 +69,27 @@ namespace Game15
         positionEmpyCell_ = lastElem->positionEmpyCell_;
     }
 
-    void CTreeElem::clearNextTurns()
-    {
-        for ( char i = 0; i < nextTurns_.size(); i++ )
-        {
+    void CTreeElem::clearNextTurns() {
+        for ( char i = 0; i < nextTurns_.size(); i++ ) {
             delete nextTurns_ [ i ];
         }
         nextTurns_.reserve( 0 );
         nextTurns_.clear();
     }
 
-    void CTreeElem::countIndentife()
-    {
+    void CTreeElem::countIndentife() {
         indentife_ = 0;
-        for ( unsigned char i = 0; i < COUNT_CELL; i++ )
-        {
+        for ( unsigned char i = 0; i < COUNT_CELL; i++ ) {
             if ( field_ [ i ] != ( i + 1 ) )
                 indentife_++;
         }
         indentife_--;
     }
 
-    std::string CTreeElem::parseState()
-    {
+    std::string CTreeElem::parseState() {
         std::string result = "";
         result.reserve( 33 );
-        for ( unsigned char i = 0; i < COUNT_CELL; i++ )
-        {
+        for ( unsigned char i = 0; i < COUNT_CELL; i++ ) {
             result += std::to_string( field_ [ i ] );
             result += ',';
         }
@@ -135,17 +120,13 @@ namespace Game15
             return UCHAR_MAX;
         if ( IS_GOD_NUMBER( deep + currentLvl_ ) )
             return UCHAR_MAX;
-        if ( deep == 0 )
-        {
+        if ( deep == 0 ) {
             return indentife_;
-        }
-        else
-        {
+        } else {
             countNextTurns();
 
             unsigned char minIndentife = UCHAR_MAX;
-            for ( auto iterator = nextTurns_.begin(); iterator != nextTurns_.end(); ++iterator )
-            {
+            for ( auto iterator = nextTurns_.begin(); iterator != nextTurns_.end(); ++iterator ) {
                 unsigned char tmp = ( *iterator )->getDeepIndentife( deep - 1 );
                 if ( tmp < minIndentife )
                     minIndentife = tmp;
@@ -160,12 +141,10 @@ namespace Game15
 
     {
         CTreeElem * select = lastTurn_;
-        while ( select != nullptr )
-        {
+        while ( select != nullptr ) {
             unsigned char i = 0;
             for ( ; i < COUNT_CELL; i++ )
-                if ( select->field_ [ i ] != field_ [ i ] )
-                {
+                if ( select->field_ [ i ] != field_ [ i ] ) {
                     select = select->lastTurn_;
                     break;
                 }
@@ -177,24 +156,20 @@ namespace Game15
     }
 
 
-    CTreeElem* CTreeElem::sreachNextTurn()
-    {
+    CTreeElem* CTreeElem::sreachNextTurn() {
         std::vector< CTreeElem* > equalsWays;
         equalsWays.reserve( 4 );
         countNextTurns();
-        for ( auto iterator = nextTurns_.begin(); iterator != nextTurns_.end(); ++iterator )
-        {
+        for ( auto iterator = nextTurns_.begin(); iterator != nextTurns_.end(); ++iterator ) {
             if ( ( *iterator )->isLock_ )
                 continue;
 
-            if ( equalsWays.size() == 0 )
-            {
+            if ( equalsWays.size() == 0 ) {
                 equalsWays.push_back( *iterator );
                 continue;
             }
 
-            if ( equalsWays.back()->indentife_ > ( *iterator )->indentife_ )
-            {
+            if ( equalsWays.back()->indentife_ > ( *iterator )->indentife_ ) {
                 equalsWays.clear();
                 equalsWays.push_back( *iterator );
                 continue;
@@ -210,28 +185,23 @@ namespace Game15
         unsigned char deep = 1;
         std::vector <CTreeElem*> newEqualWays;
         newEqualWays.reserve( equalsWays.size() );
-        while ( equalsWays.size() > 1 )
-        {
+        while ( equalsWays.size() > 1 ) {
             unsigned char * minIndentifes = new unsigned char [ equalsWays.size() ] { UCHAR_MAX };
             newEqualWays.clear();
-#pragma omp parallel for
-            for ( int i = 0; i < equalsWays.size(); i++ )
-            {
+            #pragma omp parallel for
+            for ( int i = 0; i < equalsWays.size(); i++ ) {
                 minIndentifes [ i ] = equalsWays [ i ]->getDeepIndentife( deep );
             }
             unsigned char min = UCHAR_MAX;
-            for ( unsigned char i = 0; i < equalsWays.size(); i++ )
-            {
-                if ( minIndentifes [ i ] < min )
-                {
+            for ( unsigned char i = 0; i < equalsWays.size(); i++ ) {
+                if ( minIndentifes [ i ] < min ) {
                     newEqualWays.clear();
                     newEqualWays.push_back( equalsWays [ i ] );
                     min = minIndentifes [ i ];
                     continue;
                 }
 
-                if ( minIndentifes [ i ] == min )
-                {
+                if ( minIndentifes [ i ] == min ) {
                     newEqualWays.push_back( equalsWays [ i ] );
                     continue;
                 }

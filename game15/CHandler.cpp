@@ -7,8 +7,7 @@ CHandler::CHandler ()
 {
 }
 
-CHandler::~CHandler () 
-{
+CHandler::~CHandler() {
     if ( m_nexthandler_ != nullptr )
         delete m_nexthandler_;
 }
@@ -23,8 +22,7 @@ CHandler::~CHandler ()
 //  
 
 
-void CHandler::addNewHandler( CHandler * handler )
-{
+void CHandler::addNewHandler( CHandler * handler ) {
     CHandler * tmp = this;
     while ( tmp->m_nexthandler_ != nullptr )
         tmp = tmp->m_nexthandler_;

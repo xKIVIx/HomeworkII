@@ -3,13 +3,12 @@
 #include <WS2tcpip.h>
 #include <string>
 #pragma comment(lib, "Ws2_32.lib")
-class CServer
-{
+class CServer {
 public:
     CServer();
     ~CServer();
     std::string getRequest();
-    void sendResponse(std::string response);
+    void sendResponse( std::string response );
 private:
     WSADATA wsaData_;
     struct addrinfo* listenAddr_ = nullptr;

@@ -7,8 +7,7 @@
 
 #include "CHandler.h"
 
-class CHandler
-{
+class CHandler {
 public:
 
     // Constructors/Destructors
@@ -18,12 +17,12 @@ public:
     /**
      * Empty Constructor
      */
-    CHandler ();
+    CHandler();
 
     /**
      * Empty Destructor
      */
-    ~CHandler ();
+    ~CHandler();
 
 
 

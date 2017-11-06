@@ -3,11 +3,9 @@
 
 #include "CClasterisator.h"
 
-namespace Claster 
-{
+namespace Claster {
 
-    class CClasterisatorGraph: public CClasterisator
-    {
+    class CClasterisatorGraph : public CClasterisator {
     public:
 
         ~CClasterisatorGraph();
@@ -15,14 +13,14 @@ namespace Claster
         virtual std::string clasterisation( std::string data );
 
     private:
-        
+
         CObject * graphHead_;
 
         unsigned int ** distinationMatrix_ = nullptr;
 
         unsigned int countClasters_ = 0,
-                     min_i = 0, 
-                     min_k = 0;
+            min_i = 0,
+            min_k = 0;
 
         void buildLineGraph();
 

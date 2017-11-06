@@ -11,32 +11,28 @@
 
 namespace Claster {
 
-class CClasterisator
-{
-public:
+    class CClasterisator {
+    public:
 
 
 
-    /**
-     * Return string in format : a1+a2;a3;.....
-     * @return std::string
-     * @param  data the format string : a1[d1+d2+...+dn]...an[....]<options for mask
-     * what object is mask, for graph how many clasters><type clasterisation "m" -
-     * mask, "g"-graph >
-     */
-    virtual std::string clasterisation( std::string data ) = 0;
+        /**
+         * Return string in format : a1+a2;a3;.....
+         * @return std::string
+         * @param  data the format string : a1[d1+d2+...+dn]...an[....]<options for mask
+         * what object is mask, for graph how many clasters><type clasterisation "m" -
+         * mask, "g"-graph >
+         */
+        virtual std::string clasterisation( std::string data ) = 0;
 
 
-protected:
-    std::vector <CObject> objectsVector_;
+    protected:
+        std::vector <CObject> objectsVector_;
 
-    /**
-     * @param  data
-     */
-    void parseData( std::string data );
+        void parseData( std::string data );
 
 
-};
+    };
 } // end of package namespace
 
 #endif // CCLASTERISATOR_H

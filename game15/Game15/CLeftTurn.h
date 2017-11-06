@@ -3,10 +3,8 @@
 
 #include "CTreeElem.h"
 
-namespace Game15
-{
-    class CLeftTurn : public CTreeElem 
-    {
+namespace Game15 {
+    class CLeftTurn : public CTreeElem {
 
     public:
 

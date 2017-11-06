@@ -7,14 +7,13 @@
 
 namespace Game15 {
 
-class CGameHandler : public CHandler
-{
-public:
+    class CGameHandler : public CHandler {
+    public:
 
 
-    virtual std::string handle( std::string message ) const;
+        virtual std::string handle( std::string message ) const;
 
-};
+    };
 } // end of package namespace
 
 #endif // CGAMEHANDLER_H

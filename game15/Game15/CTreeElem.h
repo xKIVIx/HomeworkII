@@ -3,14 +3,13 @@
 
 #include <vector>
 #include <string>
-namespace Game15
-{
-#define IS_GOD_NUMBER(x) x > 31
-#define COUNT_CELL 9
-#define SIZE_WALL 3
-#define MAX_ITERATIONS 181440
+namespace Game15 {
+    #define IS_GOD_NUMBER(x) x > 31
+    #define COUNT_CELL 9
+    #define SIZE_WALL 3
+    #define MAX_ITERATIONS 181440
 
-    class CTreeElem{
+    class CTreeElem {
     public:
 
         CTreeElem( unsigned char field [ COUNT_CELL ], unsigned char positionEmpyCell );

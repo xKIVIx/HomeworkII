@@ -21,6 +21,12 @@
     <Filter Include="Файлы исходного кода\Claster">
       <UniqueIdentifier>{6e6746b7-ea30-49d9-8484-3d7475efbacd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\Claster\ParseState">
+      <UniqueIdentifier>{e994b2f7-6e22-4571-9db0-874c566ed560}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Claster\ParseState">
+      <UniqueIdentifier>{5bbe1712-63c7-4a63-8ef6-f542f0bbb05b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -59,6 +65,21 @@
     <ClCompile Include="Claster\CClasterisatorGraph.cpp">
       <Filter>Файлы исходного кода\Claster</Filter>
     </ClCompile>
+    <ClCompile Include="Claster\ParseState\CParseSate.cpp">
+      <Filter>Файлы исходного кода\Claster\ParseState</Filter>
+    </ClCompile>
+    <ClCompile Include="Claster\ParseState\CParseStateStartRead.cpp">
+      <Filter>Файлы исходного кода\Claster\ParseState</Filter>
+    </ClCompile>
+    <ClCompile Include="Claster\ParseState\CParseStateNewDataPart.cpp">
+      <Filter>Файлы исходного кода\Claster\ParseState</Filter>
+    </ClCompile>
+    <ClCompile Include="Claster\ParseState\CParseStateReadPartData.cpp">
+      <Filter>Файлы исходного кода\Claster\ParseState</Filter>
+    </ClCompile>
+    <ClCompile Include="Claster\ParseState\CParseStateReadeDataName.cpp">
+      <Filter>Файлы исходного кода\Claster\ParseState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game15\CDownTurn.h">
@@ -93,6 +114,21 @@
     </ClInclude>
     <ClInclude Include="Claster\CClasterisatorGraph.h">
       <Filter>Заголовочные файлы\Claster</Filter>
+    </ClInclude>
+    <ClInclude Include="Claster\ParseState\CParseSate.h">
+      <Filter>Заголовочные файлы\Claster\ParseState</Filter>
+    </ClInclude>
+    <ClInclude Include="Claster\ParseState\CParseStateStartRead.h">
+      <Filter>Заголовочные файлы\Claster\ParseState</Filter>
+    </ClInclude>
+    <ClInclude Include="Claster\ParseState\CParseStateNewDataPart.h">
+      <Filter>Заголовочные файлы\Claster\ParseState</Filter>
+    </ClInclude>
+    <ClInclude Include="Claster\ParseState\CParseStateReadPartData.h">
+      <Filter>Заголовочные файлы\Claster\ParseState</Filter>
+    </ClInclude>
+    <ClInclude Include="Claster\ParseState\CParseStateReadeDataName.h">
+      <Filter>Заголовочные файлы\Claster\ParseState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

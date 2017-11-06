@@ -3,8 +3,7 @@
 
 #include "CTreeElem.h"
 
-namespace Game15
-{
+namespace Game15 {
     class CUpTurn : public CTreeElem {
 
     public:

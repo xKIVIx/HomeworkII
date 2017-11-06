@@ -7,11 +7,9 @@
 
 
 
-namespace Claster
-{
+namespace Claster {
 
-    class CObject
-    {
+    class CObject {
     public:
 
         // Constructors/Destructors
@@ -29,11 +27,6 @@ namespace Claster
          */
         ~CObject();
 
-        /**
-         * Copy
-         */
-        CObject( const CObject & second );
-
 
 
         /**
@@ -41,17 +34,11 @@ namespace Claster
          * @return unsigned int
          * @param  secondObject second object to calculate defferent count
          */
-        unsigned int getDefferentCount( CObject secondObject ) const;
+        unsigned int getDefferentCount( const CObject & secondObject ) const;
 
+        inline std::vector <unsigned char> & getDataBuffer();
 
-        /**
-         * Set data
-         * @param data the new data
-         * @param size the size new data
-         */
-        void setData( unsigned char * data, unsigned int size );
-
-        std::string getName();
+        std::string & getName();
 
         void setNextObject( CObject & object );
 
@@ -68,20 +55,18 @@ namespace Claster
          * @param  data
          * @param  sizeData size input data
          */
-        CObject( std::string name, unsigned char * data, unsigned int sizeData );
+        CObject( const std::string name, const unsigned char * data, unsigned int sizeData );
 
 
-        CObject& operator= ( const CObject & second );
 
     protected:
 
         // Private attributes
         //  
         std::string name_;
-        unsigned char * data_;
-        unsigned int dataSize_;
+        std::vector <unsigned char> data_;
 
-        CObject * nextObject_;
+        CObject * nextObject_ = nullptr;
         bool isNextLock_ = false;
     };
 } // end of package namespace
