@@ -164,6 +164,8 @@
     <ClCompile Include="game15\CUpTurn.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="VanHao\CVanHao.cpp" />
+    <ClCompile Include="VanHao\CVanHaoHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CHandler.h" />
@@ -184,6 +186,8 @@
     <ClInclude Include="game15\CTreeElem.h" />
     <ClInclude Include="game15\CUpTurn.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="VanHao\CVanHao.h" />
+    <ClInclude Include="VanHao\CVanHaoHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -27,6 +27,12 @@
     <Filter Include="Файлы исходного кода\Claster\ParseState">
       <UniqueIdentifier>{5bbe1712-63c7-4a63-8ef6-f542f0bbb05b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\VanHao">
+      <UniqueIdentifier>{d08cf68b-b1d1-4f2d-965a-f72a1a3af3b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\VanHao">
+      <UniqueIdentifier>{896968bf-0e3b-4b05-9c0d-c8b3e38af3fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -86,6 +92,12 @@
     <ClCompile Include="Claster\CClasterisatorMask.cpp">
       <Filter>Файлы исходного кода\Claster</Filter>
     </ClCompile>
+    <ClCompile Include="VanHao\CVanHao.cpp">
+      <Filter>Файлы исходного кода\VanHao</Filter>
+    </ClCompile>
+    <ClCompile Include="VanHao\CVanHaoHandler.cpp">
+      <Filter>Файлы исходного кода\VanHao</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game15\CDownTurn.h">
@@ -141,6 +153,12 @@
     </ClInclude>
     <ClInclude Include="Claster\CClasterisatorMask.h">
       <Filter>Заголовочные файлы\Claster</Filter>
+    </ClInclude>
+    <ClInclude Include="VanHao\CVanHao.h">
+      <Filter>Заголовочные файлы\VanHao</Filter>
+    </ClInclude>
+    <ClInclude Include="VanHao\CVanHaoHandler.h">
+      <Filter>Заголовочные файлы\VanHao</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

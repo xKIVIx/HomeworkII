@@ -24,7 +24,7 @@ namespace Game15 {
                 id++;
                 ptr = strtok( 0, separator );
             }
-            delete str;
+            delete [] str;
             if ( empyCellPos != UCHAR_MAX ) {
                 Game15::CTreeElem test( field, empyCellPos );
                 std::string answer = test.sreachWay();
