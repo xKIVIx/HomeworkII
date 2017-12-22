@@ -15,8 +15,7 @@ std::string VanHao::CVanHaoHandler::handle( std::string message ) const {
         memcpy( str, message.c_str(), sizeof( char ) * message.length() );
         std::string data [ 2 ];
         unsigned int i = 0;
-        char *ptr = nullptr;
-        ptr = strtok( str, separator );
+        char *ptr = strtok( str, separator );
         while ( ptr ) {
             if ( i == 2 )
                 return "Uncorrect data";

@@ -84,8 +84,8 @@ unsigned int Claster::CObject::deleteMaxEdge( unsigned int maxSize = 0 ) {
             }
         }
 
-    } else
-        return maxSize;
+    }
+    return maxSize;
 }
 
 void Claster::CObject::viewInfo() {
@@ -95,7 +95,9 @@ void Claster::CObject::viewInfo() {
     std::cout << std::endl;
 }
 
-Claster::CObject::CObject( std::string name, const unsigned char * data, unsigned int sizeData ) {
+Claster::CObject::CObject( const std::string & name, 
+                           const unsigned char * data, 
+                           unsigned int sizeData ) {
     data_.reserve( sizeData );
     data_.insert( data_.end(), data, data + sizeData );
     name_ = name;

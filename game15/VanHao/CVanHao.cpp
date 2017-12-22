@@ -46,7 +46,6 @@ VanHao::CVanHao::CVanHao() {
     regexAnd_.assign( VAN_HAO_OPERATION_AND_REGEX );
     regexOr_.assign( VAN_HAO_OPERATION_OR_REGEX );
     regexImpl_.assign( VAN_HAO_OPERATION_IMPL_REGEX );
-    uncorrectData = "";
 }
 
 bool VanHao::CVanHao::checkCorrect( const std::forward_list<std::string>& data ) {
@@ -94,8 +93,7 @@ std::forward_list<std::string> VanHao::CVanHao::getDataList( const std::string &
     char *str = new char [ data.length() + 1 ];
     memcpy( str, data.c_str(), sizeof( char ) * data.length() );
     str [ data.length() ] = '\0';
-    char *ptr = nullptr;
-    ptr = strtok( str, separator );
+    char *ptr = strtok( str, separator );
 
     std::forward_list <std::string> result;
     while ( ptr ) {
@@ -269,8 +267,8 @@ bool VanHao::CVanHao::deleteScob( std::string & data ) {
     auto i = data.begin();
     if ( *i != '(' )
         return false;
-    i++;
-    for ( ; i != data.end(); i++ ) {
+    ++i;
+    for ( ; i != data.end(); ++i ) {
         if ( ( countScob == 0 ) && ( *i != '\0' ) )
             return false;
         if ( *i == ')' ) {

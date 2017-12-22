@@ -17,7 +17,7 @@ std::string Claster::CClasterisatorMask::clasterisation( std::string data ) {
     try {
         initMasks( data );
         parseData( data );
-    } catch ( std::string err ) {
+    } catch ( std::string & err ) {
         std::cout << err;
         return err;
     }

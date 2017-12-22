@@ -14,7 +14,7 @@ namespace Claster {
 
     private:
 
-        CObject * graphHead_;
+        CObject * graphHead_ = nullptr;
 
         unsigned int ** distinationMatrix_ = nullptr;
 

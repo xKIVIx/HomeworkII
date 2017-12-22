@@ -11,12 +11,12 @@ public:
     CServer();
     ~CServer();
     std::string getRequest();
-    void sendResponse( std::string response );
+    void sendResponse( const std::string & response );
 private:
     WSADATA wsaData_;
     struct addrinfo* listenAddr_ = nullptr;
-    int listenSocet_;
-    int clientSocket_;
+    int listenSocet_ = INVALID_SOCKET;
+    int clientSocket_ = INVALID_SOCKET;
     bool isWsaInit = false;
 };
 

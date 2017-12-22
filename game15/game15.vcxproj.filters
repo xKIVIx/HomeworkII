@@ -33,6 +33,12 @@
     <Filter Include="Файлы исходного кода\VanHao">
       <UniqueIdentifier>{896968bf-0e3b-4b05-9c0d-c8b3e38af3fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\Tests">
+      <UniqueIdentifier>{8ad36b70-cdb4-48f4-8386-9d3b15f63b48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Tests">
+      <UniqueIdentifier>{1893c0bf-9331-442a-b739-af39aea935cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -98,6 +104,15 @@
     <ClCompile Include="VanHao\CVanHaoHandler.cpp">
       <Filter>Файлы исходного кода\VanHao</Filter>
     </ClCompile>
+    <ClCompile Include="Tests\CTestsHandler.cpp">
+      <Filter>Файлы исходного кода\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="COpenCl.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\CCore.cpp">
+      <Filter>Файлы исходного кода\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game15\CDownTurn.h">
@@ -160,5 +175,22 @@
     <ClInclude Include="VanHao\CVanHaoHandler.h">
       <Filter>Заголовочные файлы\VanHao</Filter>
     </ClInclude>
+    <ClInclude Include="Tests\CTestsHandler.h">
+      <Filter>Заголовочные файлы\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\CBitStorage.h">
+      <Filter>Заголовочные файлы\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="COpenCl.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\CCore.h">
+      <Filter>Заголовочные файлы\Tests</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenCl.cl">
+      <Filter>Файлы исходного кода</Filter>
+    </None>
   </ItemGroup>
 </Project>

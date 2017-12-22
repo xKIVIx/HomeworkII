@@ -55,7 +55,9 @@ namespace Claster {
          * @param  data
          * @param  sizeData size input data
          */
-        CObject( const std::string name, const unsigned char * data, unsigned int sizeData );
+        CObject( const std::string & name, 
+                 const unsigned char * data, 
+                 unsigned int sizeData );
 
 
 

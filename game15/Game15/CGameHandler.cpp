@@ -15,8 +15,7 @@ namespace Game15 {
             char *str = new char [ message.length() ];
             memcpy( str, message.c_str(), sizeof( char ) * message.length() );
 
-            char *ptr = nullptr;
-            ptr = strtok( str, separator );
+            char *ptr = strtok( str, separator );
             while ( ptr ) {
                 field [ id ] = atoi( ptr );
                 if ( field [ id ] == UCHAR_MAX )

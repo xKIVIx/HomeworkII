@@ -15,12 +15,12 @@ public:
 
 
     /**
-     * Empty Constructor
+     * Constructor
      */
     CHandler();
 
     /**
-     * Empty Destructor
+     * Destructor
      */
     ~CHandler();
 

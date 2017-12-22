@@ -18,7 +18,7 @@ namespace Claster {
                 message.pop_back();
                 return clasterisator.clasterisation( message );
             }
-            return std::string("Claster handler: Unknow modificator - " + message.back());
+            return std::string( std::string( "Claster handler: Unknow modificator - " ) + message.back() );
         } else
             return nextHandler( message );
     }

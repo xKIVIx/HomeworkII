@@ -156,6 +156,7 @@
     <ClCompile Include="Claster\ParseState\CParseStateReadeDataName.cpp" />
     <ClCompile Include="Claster\ParseState\CParseStateReadPartData.cpp" />
     <ClCompile Include="Claster\ParseState\CParseStateStartRead.cpp" />
+    <ClCompile Include="COpenCl.cpp" />
     <ClCompile Include="game15\CDownTurn.cpp" />
     <ClCompile Include="Game15\CGameHandler.cpp" />
     <ClCompile Include="game15\CLeftTurn.cpp" />
@@ -164,6 +165,8 @@
     <ClCompile Include="game15\CUpTurn.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Tests\CCore.cpp" />
+    <ClCompile Include="Tests\CTestsHandler.cpp" />
     <ClCompile Include="VanHao\CVanHao.cpp" />
     <ClCompile Include="VanHao\CVanHaoHandler.cpp" />
   </ItemGroup>
@@ -179,6 +182,7 @@
     <ClInclude Include="Claster\ParseState\CParseStateReadeDataName.h" />
     <ClInclude Include="Claster\ParseState\CParseStateReadPartData.h" />
     <ClInclude Include="Claster\ParseState\CParseStateStartRead.h" />
+    <ClInclude Include="COpenCl.h" />
     <ClInclude Include="game15\CDownTurn.h" />
     <ClInclude Include="Game15\CGameHandler.h" />
     <ClInclude Include="game15\CLeftTurn.h" />
@@ -186,8 +190,14 @@
     <ClInclude Include="game15\CTreeElem.h" />
     <ClInclude Include="game15\CUpTurn.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="Tests\CBitStorage.h" />
+    <ClInclude Include="Tests\CCore.h" />
+    <ClInclude Include="Tests\CTestsHandler.h" />
     <ClInclude Include="VanHao\CVanHao.h" />
     <ClInclude Include="VanHao\CVanHaoHandler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenCl.cl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -79,7 +79,7 @@ std::string CServer::getRequest() {
     return request;
 }
 
-void CServer::sendResponse( std::string response ) {
+void CServer::sendResponse( const std::string & response ) {
     std::string responseHead = "HTTP/1.1 200 OK\r\nVersion: HTTP/1.1\r\nContent-Type: text/html; charset=utf-8\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: ";
     responseHead += response.size();
     responseHead += "\r\n\r\n";

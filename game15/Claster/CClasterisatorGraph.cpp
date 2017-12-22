@@ -23,7 +23,7 @@ std::string Claster::CClasterisatorGraph::clasterisation( std::string data ) {
     std::cout << "Start parse data\n";
     try {
         parseData( data );
-    } catch ( std::string er ) {
+    } catch ( std::string & er ) {
         std::cout << er << std::endl;
         return er;
     }
@@ -77,8 +77,7 @@ void Claster::CClasterisatorGraph::buildLineGraph() {
 void Claster::CClasterisatorGraph::clearMatrix() {
     if ( distinationMatrix_ != nullptr )
         for ( unsigned int i = 0; i < objectsVector_.size(); i++ ) {
-            if ( distinationMatrix_ != nullptr )
-                delete [] distinationMatrix_ [ i ];
+            delete [] distinationMatrix_ [ i ];
         }
     delete [] distinationMatrix_;
 }
