@@ -31,7 +31,7 @@ public:
      * @return std::string
      * @param  message
      */
-    virtual std::string handle( std::string message ) const = 0;
+    virtual std::string handle( std::string & message ) = 0;
 
     void addNewHandler( CHandler * hendler );
 
@@ -40,7 +40,7 @@ protected:
 
     CHandler * m_nexthandler_ = nullptr;
 
-    std::string nextHandler( std::string message ) const;
+    std::string nextHandler( std::string & message );
 
 };
 

@@ -11,7 +11,7 @@ namespace Game15 {
     public:
 
 
-        virtual std::string handle( std::string message ) const;
+        virtual std::string handle( std::string & message );
 
     };
 } // end of package namespace

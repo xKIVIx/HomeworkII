@@ -9,15 +9,13 @@ __kernel void countOnes ( __global __read_only unsigned char * data,
 
 __kernel void countDiff ( __global __read_only unsigned char * data1,
                           __global __read_only unsigned char * data2,
-						  __global __read_only unsigned int  * countBuffers,
-						  __global             unsigned int  * writePosition,
 						  __global             unsigned char * writeBuffer ){
     unsigned int dataId1 = get_global_id( 0 ),
-                 dataId2 = get_global_id( 1 );
-    currWritePosition = atomic_inc ( writePosition );
-    for ( unsigned int i = 0; i < *countBuffers; i++) {
-        writeBuffer[ currWritePosition * (*countBuffers) + i] = 
-            ~( data1[ dataId1*(*countBuffers) + i] ^ 
-               data2[ dataId2*(*countBuffers) + i] )
-    }
+                 dataId2 = get_global_id( 1 ),
+                 bufferId = get_global_id( 2 ),
+                 countBuffers = get_global_size( 0 );
+    unsigned int currWritePosition = dataId1 * get_global_size( 1 ) + dataId2;
+    writeBuffer[ currWritePosition * countBuffers + bufferId] = 
+        ~( data1[ dataId1*countBuffers + bufferId] ^ 
+        data2[ dataId2*countBuffers + bufferId] );
 }

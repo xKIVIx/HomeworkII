@@ -1,7 +1,7 @@
 #include "CVanHaoHandler.h"
 #include "CVanHao.h"
 
-std::string VanHao::CVanHaoHandler::handle( std::string message ) const {
+std::string VanHao::CVanHaoHandler::handle( std::string & message ) {
     if ( message.back() == 'v' ) {
         message.back() = '\0';
         std::tr1::regex rx("%7C");

@@ -4,7 +4,7 @@
 
 
 namespace Game15 {
-    std::string CGameHandler::handle( std::string message ) const {
+    std::string CGameHandler::handle( std::string & message ) {
         if ( message.back() == 'g' ) {
             std::cout << "Start game 15\n";
             message.pop_back();

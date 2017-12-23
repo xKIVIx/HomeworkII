@@ -6,7 +6,7 @@
 
 namespace Claster {
 
-    std::string CClasterHandler::handle( std::string message ) const {
+    std::string CClasterHandler::handle( std::string & message ) {
         if ( message.back() == 'c' ) {
             message.pop_back();
             if ( message.back() == 'g' ) {

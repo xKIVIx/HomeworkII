@@ -29,7 +29,7 @@ void CHandler::addNewHandler( CHandler * handler ) {
     tmp->m_nexthandler_ = handler;
 }
 
-std::string CHandler::nextHandler( std::string message ) const {
+std::string CHandler::nextHandler( std::string & message ) {
     if ( m_nexthandler_ != nullptr )
         return m_nexthandler_->handle( message );
     else {

@@ -57,35 +57,22 @@ size_t COpenCl::computeDiff( const byte * data1,
     size_t sizeBuffer2 = sizeData2 * countBuffers;
     CMemObject dataBuffer2( sizeBuffer2, CL_MEM_READ_ONLY );
 
-    CMemObject countBuffersBuffer( sizeof( countBuffers ), 
-                                   CL_MEM_READ_ONLY );
-
     // init result buffer
     CMemObject resultBuffer( sizeBuffer1 * sizeData2, 
                              CL_MEM_WRITE_ONLY );
 
-    // init service buffer
-    CMemObject writePosBuffer( sizeof( cl_uint ),
-                               CL_MEM_READ_WRITE );
-    cl_uint fillZero = 0;
-    writePosBuffer.loadData( ( byte * )fillZero, sizeof( cl_uint ) );
-
     // load data in buffer
     dataBuffer1.loadData( data1, sizeBuffer1 );
     dataBuffer1.loadData( data2, sizeBuffer2 );
-    countBuffersBuffer.loadData( ( byte * ) countBuffers, 
-                                 sizeof( countBuffers ) );
 
     // init karnel
     CKernel kernel( "countDiff" );
     kernel.bindParametrs( dataBuffer1, 0 );
     kernel.bindParametrs( dataBuffer2, 1 );
-    kernel.bindParametrs( countBuffersBuffer, 2 );
-    kernel.bindParametrs( writePosBuffer, 3 );
-    kernel.bindParametrs( resultBuffer, 4 );
+    kernel.bindParametrs( resultBuffer, 2 );
 
-    size_t workSizes [] = { sizeData1,sizeData2 };
-    kernel.complite( workSizes, 2 );
+    size_t workSizes [] = { sizeData1, sizeData2, countBuffers };
+    kernel.complite( workSizes, 3 );
 
     
     return resultBuffer.getData( result );
@@ -183,6 +170,7 @@ COpenCl::COpenCl() {
         char tmp [ 256 ];
         file.getline( tmp, 256 );
         script += tmp;
+        script += '\n';
     }
 
     // compile prgram
@@ -195,12 +183,32 @@ COpenCl::COpenCl() {
                                           &sizeScript, 
                                           &err );
     chek( err );
-    chek( clBuildProgram( program_, 
-                          1, 
-                          &selectedDevice,
-                          NULL, 
-                          NULL, 
-                          NULL ) );
+    try {
+        chek( clBuildProgram( program_,
+              1,
+              &selectedDevice,
+              NULL,
+              NULL,
+              NULL ) );
+    }
+    catch ( int err ) {
+        size_t endLog = 0;
+        clGetProgramBuildInfo( program_,
+                               selectedDevice,
+                               CL_PROGRAM_BUILD_LOG,
+                               1000,
+                               nullptr,
+                               &endLog );
+        char * log = new char [ endLog ];
+        clGetProgramBuildInfo( program_,
+                               selectedDevice,
+                               CL_PROGRAM_BUILD_LOG,
+                               endLog,
+                               log,
+                               &endLog );
+        log [ endLog-1 ] = '\0';
+        std::cout << log;
+    }
     std::cout << "----------OpenCl is success init---------\n";
 }
 
