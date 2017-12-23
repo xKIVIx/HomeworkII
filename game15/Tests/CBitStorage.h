@@ -11,7 +11,7 @@ namespace Tests {
         }
         struct SBitAdress {
             size_t bufferId_ = 0;
-            byte shift_ = 0;
+            char shift_ = 0;
         };
         template < typename TBufferType >
         class CBitStorage {
@@ -102,7 +102,7 @@ namespace Tests {
              */
             bool resize( const size_t newSize );
 
-            CBitStorage();;
+            CBitStorage();
 
             CBitStorage( const size_t size );
 
@@ -146,9 +146,10 @@ namespace Tests {
         inline void CBitStorage<TBufferType>::addBit( const byte byte ) {
 
             // allocating memory if necessary.
-            if ( lastBit_.shift_ == sizeBuffer_ ) {
+            if ( lastBit_.shift_ == -1 ) {
+                lastBit_.bufferId_++;
                 resize( countBuffers_ + 1 );
-                lastBit_.shift_ = 0;
+                lastBit_.shift_ = sizeBuffer_ - 1;
             }
 
             // extract and align the bit to be added.
@@ -158,7 +159,7 @@ namespace Tests {
             writeByte <<= lastBit_.shift_;
             // write bit
             buffers_ [ lastBit_.bufferId_ ] |= writeByte;
-            lastBit_.shift_++;
+            lastBit_.shift_--;
         }
 
         /*
@@ -269,7 +270,7 @@ namespace Tests {
             buffers_ = new TBufferType [ countBuffers + 1 ];
             memcpy( buffers_, buffers, countBuffers * sizeof( TBufferType ) );
             lastBit_.bufferId_ = countBuffers;
-            lastBit_.shift_ = 0;
+            lastBit_.shift_ = -1;
             recountOnes();
         }
 
@@ -290,7 +291,7 @@ namespace Tests {
                 else {
                     memcpy( newBuffers, buffers_, newSize * sizeof( TBufferType ) );
                     lastBit_.bufferId_ = newSize - 1;
-                    lastBit_.shift_ = 0;
+                    lastBit_.shift_ = sizeBuffer_ - 1;
                 }
                 // save new buffers
                 delete [] buffers_;
@@ -302,11 +303,13 @@ namespace Tests {
         }
         template<typename TBufferType>
         inline CBitStorage<TBufferType>::CBitStorage() {
+            lastBit_.shift_ = sizeBuffer_ - 1;
             countBuffers_ = 1;
             buffers_ = new TBufferType( 0 );
         }
         template<typename TBufferType>
         inline CBitStorage<TBufferType>::CBitStorage( const size_t size ) {
+            lastBit_.shift_ = sizeBuffer_ - 1;
             countBuffers_ = size;
             buffers_ = new TBufferType [ countBuffers_ ] { 0 };
         }

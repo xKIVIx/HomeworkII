@@ -63,7 +63,7 @@ size_t COpenCl::computeDiff( const byte * data1,
 
     // load data in buffer
     dataBuffer1.loadData( data1, sizeBuffer1 );
-    dataBuffer1.loadData( data2, sizeBuffer2 );
+    dataBuffer2.loadData( data2, sizeBuffer2 );
 
     // init karnel
     CKernel kernel( "countDiff" );
@@ -75,7 +75,7 @@ size_t COpenCl::computeDiff( const byte * data1,
     kernel.complite( workSizes, 3 );
 
     
-    return resultBuffer.getData( result );
+    return resultBuffer.getData( result )/countBuffers;
 }
 COpenCl & COpenCl::getInstance() {
     if ( instance_ == nullptr )
@@ -221,6 +221,7 @@ COpenCl::~COpenCl() {
 COpenCl::CMemObject::CMemObject( const size_t size , 
                                  const cl_mem_flags flag) {
     cl_int err;
+    size_ = size;
     mem_ = clCreateBuffer( COpenCl::getInstance().context_,
                            flag,
                            size * sizeof( byte ),
@@ -256,7 +257,7 @@ size_t COpenCl::CMemObject::getData( byte ** buffer ) {
                                CL_TRUE,
                                0,
                                size_ * sizeof( byte ),
-                               buffer,
+                               *buffer,
                                0,
                                NULL,
                                NULL );
@@ -266,7 +267,7 @@ size_t COpenCl::CMemObject::getData( byte ** buffer ) {
 
 COpenCl::CKernel::CKernel( const char * name ) {
     cl_int err = 0;
-    cl_kernel kernel = clCreateKernel( COpenCl::getInstance().program_, name, &err );
+    kernel_ = clCreateKernel( COpenCl::getInstance().program_, name, &err );
     chek( err );
 }
 

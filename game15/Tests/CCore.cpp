@@ -3,6 +3,7 @@
 
 void Tests::CCore::setData( std::vector<std::list<BitStorage::CBitStorage<byte>>> data ) {
     data_.swap( data );
+    diffData_.clear();
 }
 
 std::list<std::list<size_t>> Tests::CCore::getTests() {
@@ -26,7 +27,7 @@ void Tests::CCore::countDiffData() {
 
         for ( size_t sSetId = fSetId + 1; sSetId < data_.size(); sSetId++ ) {
 
-            size_t sDataCountRow = data_ [ fSetId ].size();
+            size_t sDataCountRow = data_ [ sSetId ].size();
             byte * sData = new byte [ sDataCountRow * countBuffers] { 0 };
             // write position for second data
             size_t writePosition = 0;
@@ -56,7 +57,7 @@ void Tests::CCore::addDiffData( const byte * data,
                                 const size_t countRow, 
                                 const size_t sizeRow ) {
     for ( size_t i = 0; i < countRow; i++ ) {
-        diffData_.push_front( BitStorage::CBitStorage<byte>( sizeRow ) );
-        diffData_.front().setBits( data, sizeRow );
+        diffData_.push_back( BitStorage::CBitStorage<byte>( sizeRow ) );
+        diffData_.back().setBits( &( data [ i*sizeRow ] ), sizeRow );
     }
 }
