@@ -24,6 +24,7 @@ namespace Tests {
         void addDiffData( const byte * data,
                           const size_t countRow,
                           const size_t sizeRow );
+        void sreachSkipDiffData();
 
     };
 }

@@ -60,8 +60,8 @@ namespace Tests {
             }
             word = getWord( message );
             data [ setId ].emplace_back();
-            for ( auto iter = word.begin(); iter != word.end(); ++iter ) {
-                if ( *iter == '1' )
+            for ( size_t i = word.size(); i > 0; i-- ) {
+                if ( word[ i - 1 ] == '1' )
                     data [ setId ].back().addBit( 1 );
                 else
                     data [ setId ].back().addBit( 0 );

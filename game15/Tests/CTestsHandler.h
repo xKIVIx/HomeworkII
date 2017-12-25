@@ -18,5 +18,6 @@ namespace Tests {
         std::string addData( std::string & message );
         // TODO
         std::string deleteData( std::string & message );
+
     };
 }

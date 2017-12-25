@@ -7,7 +7,10 @@ void Tests::CCore::setData( std::vector<std::list<BitStorage::CBitStorage<byte>>
 }
 
 std::list<std::list<size_t>> Tests::CCore::getTests() {
+    std::cout << "----------Diff matrix----------\n";
     countDiffData();
+    std::cout << "-------Sorted diff matrix------\n";
+    sreachSkipDiffData();
     return std::list<std::list<size_t>>();
 }
 
@@ -51,6 +54,10 @@ void Tests::CCore::countDiffData() {
         }
         delete [] fData;
     }
+    diffData_.sort( [] ( const BitStorage::CBitStorage<byte> & one, 
+                         const BitStorage::CBitStorage<byte> & two ) {
+        return one.getCountOnes() < two.getCountOnes();
+    } );
 }
 
 void Tests::CCore::addDiffData( const byte * data, 
@@ -59,5 +66,21 @@ void Tests::CCore::addDiffData( const byte * data,
     for ( size_t i = 0; i < countRow; i++ ) {
         diffData_.push_back( BitStorage::CBitStorage<byte>( sizeRow ) );
         diffData_.back().setBits( &( data [ i*sizeRow ] ), sizeRow );
+        diffData_.back().viewStorageData();
+    }
+}
+
+void Tests::CCore::sreachSkipDiffData() {
+    for ( auto iter1 = diffData_.begin(); iter1 != diffData_.end(); ++iter1 ) {
+        if ( !iter1->getSkipState() ) {
+            iter1->viewStorageData();
+            auto iter2 = iter1;
+            ++iter2;
+            for ( ; iter2 != diffData_.end(); ++iter2 ) {
+                if ( !iter2->getSkipState() ) {
+                    iter2->setSkipState( iter1->isExtansion( *iter2 ) );
+                }
+            }
+        }
     }
 }

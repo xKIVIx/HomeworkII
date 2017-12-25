@@ -74,8 +74,7 @@ size_t COpenCl::computeDiff( const byte * data1,
     size_t workSizes [] = { sizeData1, sizeData2, countBuffers };
     kernel.complite( workSizes, 3 );
 
-    
-    return resultBuffer.getData( result )/countBuffers;
+    return resultBuffer.getData( result ) / countBuffers;
 }
 COpenCl & COpenCl::getInstance() {
     if ( instance_ == nullptr )

@@ -2,6 +2,8 @@
 #include <string>
 
 #include "../COpenCl.h"
+#include <iostream>
+#include <bitset>
 typedef unsigned char byte;
 namespace Tests {
     namespace BitStorage {
@@ -26,15 +28,12 @@ namespace Tests {
             void addBit( const byte byte );
 
             /*
-             * TODO
-             * Adds an array of bits. Bits are taken from the end.
-             * @param bytes - the byte array in which stored bits to add.
-             * @param countBytes - count bytes in array.
-             * @param countBits - the number of bits to be added.
+             * Checks whether the object being checked is an extension of this.
+             * @param sec - second object.
+             * @return - true if it is true;
              */
-            void addBits( const byte * bytes,
-                          const size_t countBytes,
-                          const size_t countBits );
+            bool isExtansion( const CBitStorage<TBufferType> & sec );
+
 
             /*
              * To get a bit.
@@ -102,6 +101,8 @@ namespace Tests {
              */
             bool resize( const size_t newSize );
 
+            void viewStorageData();
+
             CBitStorage();
 
             CBitStorage( const size_t size );
@@ -162,17 +163,14 @@ namespace Tests {
             lastBit_.shift_--;
         }
 
-        /*
-        * TODO
-        * Adds an array of bits. Bits are taken from the end.
-        * @param bytes - the byte array in which stored bits to add.
-        * @param countBytes - count bytes in array.
-        * @param countBits - the number of bits to be added.
-        */
         template<typename TBufferType>
-        inline void CBitStorage<TBufferType>::addBits( const byte * bytes, const size_t countBytes, const size_t countBits ) {
-            // allocating memory if necessary.
-            // calculate the necessary shift.
+        inline bool CBitStorage<TBufferType>::isExtansion( const CBitStorage<TBufferType>& sec ) {
+            for ( size_t i = 0; i < countBuffers_; i++ ) {
+                if ( (buffers_ [ i ] & sec.buffers_ [ i ]) != buffers_ [ i ] ) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /*
@@ -302,6 +300,12 @@ namespace Tests {
             return true;
         }
         template<typename TBufferType>
+        inline void CBitStorage<TBufferType>::viewStorageData() {
+            for ( size_t i = 0; i < countBuffers_; i++ )
+                std::cout << std::bitset<8>( buffers_ [ i ] );
+            std::cout << '\t' << countOnes_<<std::endl;
+        }
+        template<typename TBufferType>
         inline CBitStorage<TBufferType>::CBitStorage() {
             lastBit_.shift_ = sizeBuffer_ - 1;
             countBuffers_ = 1;
@@ -329,12 +333,8 @@ namespace Tests {
         }
         template<typename TBufferType>
         inline void CBitStorage<TBufferType>::recountOnes() {
-            if ( sizeBuffer_ / 8 == 1 )
-                countOnes_ = COpenCl::getInstance().computeTrueBits( ( byte * ) buffers_,
-                                                                     countBuffers_ );
-            else
-                countOnes_ = COpenCl::getInstance().computeTrueBits( ( byte * ) buffers_,
-                                                                     countBuffers_ * ( sizeBuffer_ / 8 ) );
+            countOnes_ = COpenCl::getInstance().computeTrueBits( ( byte * ) buffers_,
+                                                                 countBuffers_ * sizeof( TBufferType ) );
         }
 }
 }
