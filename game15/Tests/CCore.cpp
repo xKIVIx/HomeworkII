@@ -10,7 +10,9 @@ std::list<std::list<size_t>> Tests::CCore::getTests() {
     std::cout << "----------Diff matrix----------\n";
     countDiffData();
     std::cout << "-------Sorted diff matrix------\n";
-    sreachSkipDiffData();
+    sreachSkipData( diffData_ );
+    std::cout << "--------------Tests------------\n";
+    sreachTests();
     return std::list<std::list<size_t>>();
 }
 
@@ -54,10 +56,6 @@ void Tests::CCore::countDiffData() {
         }
         delete [] fData;
     }
-    diffData_.sort( [] ( const BitStorage::CBitStorage<byte> & one, 
-                         const BitStorage::CBitStorage<byte> & two ) {
-        return one.getCountOnes() < two.getCountOnes();
-    } );
 }
 
 void Tests::CCore::addDiffData( const byte * data, 
@@ -70,17 +68,63 @@ void Tests::CCore::addDiffData( const byte * data,
     }
 }
 
-void Tests::CCore::sreachSkipDiffData() {
-    for ( auto iter1 = diffData_.begin(); iter1 != diffData_.end(); ++iter1 ) {
+void Tests::CCore::sreachSkipData( std::list < BitStorage::CBitStorage<byte> > & data ) {
+    data.sort( [] ( const BitStorage::CBitStorage<byte> & one, 
+                    const BitStorage::CBitStorage<byte> & two ) {
+        return one.getCountOnes() < two.getCountOnes();
+    } );
+    for ( auto iter1 = data.begin(); iter1 != data.end(); ++iter1 ) {
         if ( !iter1->getSkipState() ) {
             iter1->viewStorageData();
             auto iter2 = iter1;
             ++iter2;
-            for ( ; iter2 != diffData_.end(); ++iter2 ) {
+            for ( ; iter2 != data.end(); ++iter2 ) {
                 if ( !iter2->getSkipState() ) {
                     iter2->setSkipState( iter1->isExtansion( *iter2 ) );
                 }
             }
         }
     }
+}
+std::vector <size_t> decomposeTest( const byte * data,
+                                    const size_t dataSize ) {
+    std::vector <size_t> result;
+    for ( size_t bufferId = 0; bufferId < dataSize; bufferId++ ) {
+        for ( byte shift = 0; shift < 8; shift++ ) {
+            if ( data [ bufferId ] & ( 128 >> shift ) ) {
+                result.push_back( bufferId * 8 + shift );
+            }
+
+        }
+    }
+    return result;
+}
+void Tests::CCore::sreachTests() {
+    std::vector<byte> data;
+    std::vector<size_t> countOnes;
+    const size_t diffDataSize = diffData_.size(),
+        countBuffers = diffData_.back().getCountByffers();
+    data.reserve( countBuffers * diffDataSize );
+    countOnes.reserve( diffDataSize );
+    for ( auto iter = diffData_.begin(); iter != diffData_.end(); ++iter ) {
+        if ( !iter->getSkipState() ) {
+            byte * tmp = new byte [ countBuffers ];
+            iter->getBits( tmp, countBuffers );
+            data.insert( data.end(), tmp, &tmp [ countBuffers ] );
+            countOnes.push_back( iter->getCountOnes() );
+            delete [] tmp;
+        }
+    }
+    byte * result;
+    size_t resultSize = COpenCl::getInstance().computeTests( data.data(),
+                                                             countOnes.data(),
+                                                             countOnes.size(),
+                                                             countBuffers,
+                                                             &result );
+    for ( size_t i = 0; i < resultSize; i++ ) {
+        tests_.emplace_back( countBuffers );
+        tests_.back().setBits( &result [ i*countBuffers ], countBuffers );
+    }
+    sreachSkipData( tests_ );
+    delete result;
 }

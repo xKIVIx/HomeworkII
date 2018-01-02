@@ -12,6 +12,15 @@ public:
                         const size_t sizeData2,
                         const size_t countBuffers,
                         byte ** result );
+    size_t computeTests(const byte * data,
+                         const size_t * countOnes,
+                         const size_t countRows,
+                         const size_t rowSize,
+                         byte ** result);
+    size_t decomposeData( const byte * data,
+                          const size_t countOnes,
+                          const size_t rowSize,
+                          byte ** result );
     static COpenCl & getInstance();
     static void init();
     static void release();
@@ -21,22 +30,29 @@ private:
     public:
         CMemObject( const size_t size, 
                     const cl_mem_flags flag );
+        CMemObject( const CMemObject & sec );
+        CMemObject & operator= ( const CMemObject & sec );
         ~CMemObject();
         void loadData( const byte * data, 
                        const size_t size );
         size_t getData( byte ** buffer );
+        void resize( const size_t newSize );
+        void fill( const byte fillByte );
         friend CKernel;
     private:
         cl_mem mem_ = nullptr;
         size_t size_ = 0;
+        cl_mem_flags flag_;
     };
 
     class CKernel {
     public:
         CKernel( const char * name );
         ~CKernel();
-        void bindParametrs( const CMemObject & memObject, 
-                            const size_t paramId );
+        void bindParametr( const size_t paramData,
+                           const size_t paramId );
+        void bindParametr( const CMemObject & memObject,
+                           const size_t paramId );
         void complite( const size_t * workSizes, 
                        const size_t countWorkSizes );
     private:

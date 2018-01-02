@@ -27,8 +27,8 @@ size_t COpenCl::computeTrueBits( const byte * data,
     CKernel kernel( "countOnes" );
 
     // set function parametrs
-    kernel.bindParametrs( dataBuffer, 0 );
-    kernel.bindParametrs( resultBuffer, 1 );
+    kernel.bindParametr( dataBuffer, 0 );
+    kernel.bindParametr( resultBuffer, 1 );
 
     // complite compute
     cl_uint workSize [] = { dataSize,
@@ -67,14 +67,79 @@ size_t COpenCl::computeDiff( const byte * data1,
 
     // init karnel
     CKernel kernel( "countDiff" );
-    kernel.bindParametrs( dataBuffer1, 0 );
-    kernel.bindParametrs( dataBuffer2, 1 );
-    kernel.bindParametrs( resultBuffer, 2 );
+    kernel.bindParametr( dataBuffer1, 0 );
+    kernel.bindParametr( dataBuffer2, 1 );
+    kernel.bindParametr( resultBuffer, 2 );
 
     size_t workSizes [] = { sizeData1, sizeData2, countBuffers };
     kernel.complite( workSizes, 3 );
 
     return resultBuffer.getData( result ) / countBuffers;
+}
+size_t COpenCl::computeTests( const byte * data, 
+                              const size_t * countOnes, 
+                              const size_t countRows, 
+                              const size_t rowSize, 
+                              byte ** result ) {
+    CMemObject dataBuffer( rowSize , CL_MEM_READ_ONLY );
+
+    CMemObject resultBuffers [ 2 ] { CMemObject( rowSize,CL_MEM_READ_WRITE ),
+                                     CMemObject( countOnes [ 0 ] * rowSize,CL_MEM_READ_WRITE ) };
+    resultBuffers [ 0 ].fill( 0 );
+
+    CMemObject resultSizeBuffer( sizeof( size_t ), CL_MEM_READ_WRITE );
+
+    size_t resultSize = 1;
+
+    CKernel kernel( "computeTest" );
+    kernel.bindParametr( dataBuffer, 0 );
+    kernel.bindParametr( rowSize, 1 );
+    for ( size_t i = 0; i < countRows; i++ ) {
+
+        dataBuffer.loadData( &data [ i * rowSize ], rowSize );
+        resultSizeBuffer.fill( 0 );
+        resultBuffers [ ( i + 1 ) % 2 ].resize( resultSize * countOnes [ i ] * rowSize );
+        kernel.bindParametr( resultBuffers [ i % 2 ], 2 );
+        kernel.bindParametr( resultBuffers [ ( i + 1 ) % 2 ], 3 );
+        kernel.bindParametr( resultSizeBuffer, 4 );
+        kernel.complite( &resultSize, 1 );
+        clFinish( commandQueue_ );
+        size_t * tmp;
+        resultSizeBuffer.getData( (byte **)&tmp );
+        resultSize = *tmp;
+        delete tmp;
+    }
+    resultBuffers [ countRows % 2 ].getData( result );
+    return resultSize / rowSize;
+}
+size_t COpenCl::decomposeData( const byte * data,
+                               const size_t countOnes,
+                               const size_t rowSize,
+                               byte ** result ) {
+    // load data
+    CMemObject dataMemObject( rowSize, CL_MEM_READ_ONLY );
+    dataMemObject.loadData( data, rowSize);
+
+    // decopose first row
+    CMemObject writePos( sizeof( size_t ), CL_MEM_READ_WRITE );
+    writePos.fill( 0 );
+
+    size_t sizeResult = countOnes*rowSize;
+    CMemObject resultBuffer( sizeResult, CL_MEM_WRITE_ONLY );
+    resultBuffer.fill( 0 );
+    // init karnel    
+    CKernel kernelDecompose( "decomposeData" );
+
+    // set function parametrs
+    kernelDecompose.bindParametr( dataMemObject, 0 );
+    kernelDecompose.bindParametr( writePos, 1 );
+    kernelDecompose.bindParametr( resultBuffer, 2 );
+    size_t workSize [] = { rowSize, 8 };
+    kernelDecompose.complite( workSize, 2 );
+    clFinish( commandQueue_ );
+    *result = new byte [ sizeResult ];
+    resultBuffer.loadData( *result, sizeResult );
+    return sizeResult;
 }
 COpenCl & COpenCl::getInstance() {
     if ( instance_ == nullptr )
@@ -219,14 +284,31 @@ COpenCl::~COpenCl() {
 
 COpenCl::CMemObject::CMemObject( const size_t size , 
                                  const cl_mem_flags flag) {
-    cl_int err;
-    size_ = size;
-    mem_ = clCreateBuffer( COpenCl::getInstance().context_,
-                           flag,
-                           size * sizeof( byte ),
-                           NULL,
-                           &err );
-    chek( err );
+    flag_ = flag;
+    resize( size );
+}
+
+COpenCl::CMemObject::CMemObject( const CMemObject & sec ) {
+    *this = sec;
+}
+
+COpenCl::CMemObject & COpenCl::CMemObject::operator=( const CMemObject & sec ) {
+    if ( this == &sec ) {
+        return *this;
+    }
+    flag_ = sec.flag_;
+    resize( sec.size_ );
+
+    chek( clEnqueueCopyBuffer( COpenCl::getInstance().commandQueue_,
+                               sec.mem_,
+                               mem_,
+                               0,
+                               0,
+                               size_,
+                               NULL,
+                               nullptr,
+                               nullptr ) );
+    return *this;
 }
 
 COpenCl::CMemObject::~CMemObject() {
@@ -264,6 +346,26 @@ size_t COpenCl::CMemObject::getData( byte ** buffer ) {
     return size_;
 }
 
+void COpenCl::CMemObject::resize( const size_t newSize ) {
+    if ( mem_ != nullptr ) {
+        clReleaseMemObject( mem_ );
+    }
+    cl_int err;
+    size_ = newSize;
+    mem_ = clCreateBuffer( COpenCl::getInstance().context_,
+                           flag_,
+                           size_ * sizeof( byte ),
+                           NULL,
+                           &err );
+    chek( err );
+}
+
+void COpenCl::CMemObject::fill( const byte fillByte ) {
+    byte * fill = new byte [ size_ ] { fillByte };
+    loadData( fill, size_ );
+    delete fill;
+}
+
 COpenCl::CKernel::CKernel( const char * name ) {
     cl_int err = 0;
     kernel_ = clCreateKernel( COpenCl::getInstance().program_, name, &err );
@@ -274,7 +376,11 @@ COpenCl::CKernel::~CKernel() {
     clReleaseKernel( kernel_ );
 }
 
-void COpenCl::CKernel::bindParametrs( const CMemObject & memObject, 
+void COpenCl::CKernel::bindParametr( const size_t paramData, const size_t paramId ) {
+    chek( clSetKernelArg( kernel_, paramId, sizeof( size_t ), &paramData ) );
+}
+
+void COpenCl::CKernel::bindParametr( const CMemObject & memObject, 
                                       const size_t paramId ) {
     chek( clSetKernelArg( kernel_, paramId, sizeof( cl_mem ), &memObject.mem_ ) );    
 }

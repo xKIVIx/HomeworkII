@@ -19,12 +19,15 @@ namespace Tests {
 
         std::vector < std::list < BitStorage::CBitStorage<byte> > > data_;
 
+        std::list < BitStorage::CBitStorage<byte> > tests_;
+
         void countDiffData();
 
         void addDiffData( const byte * data,
                           const size_t countRow,
                           const size_t sizeRow );
-        void sreachSkipDiffData();
+        void sreachSkipData( std::list < BitStorage::CBitStorage<byte> > & data );
 
+        void sreachTests();
     };
 }
